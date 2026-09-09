@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>ZeroRpg</title>
     <link rel="icon" type="image/png" href="./favicon.png" />
-    <script type="module" src="./assets/index-Dv47q-JN.js"></script>
-    <link rel="stylesheet" href="./assets/index-BGdGKW99.css">
+    <script type="module" src="./assets/index-DENWAaTq.js"></script>
+    <link rel="stylesheet" href="./assets/index-B1TLBc35.css">
   </head>
   <body>
     <div id="app">
@@ -17,8 +17,9 @@
             <p class="subtitle" data-i18n="header.subtitle">放置文字冒险</p>
           </div>
           <div class="header-actions">
+            <button id="btn-map" type="button" class="btn-icon header-panel-btn" data-i18n="btn.map" data-i18n-title="btn.map.title" data-i18n-aria="btn.map.title" title="地图" aria-label="地图">地图</button>
             <button id="btn-bestiary" type="button" class="btn-icon header-panel-btn" data-i18n="btn.bestiary" data-i18n-title="btn.bestiary.title" data-i18n-aria="btn.bestiary.title" title="怪物图鉴" aria-label="怪物图鉴">图鉴</button>
-            <button id="btn-collectibles" type="button" class="btn-icon header-panel-btn" data-i18n="btn.collectibles" data-i18n-title="btn.collectibles.title" data-i18n-aria="btn.collectibles.title" title="收集" aria-label="收集">收集</button>
+            <button id="btn-collectibles" type="button" class="btn-icon header-panel-btn" data-i18n="btn.collectibles" data-i18n-title="btn.collectibles.title" data-i18n-aria="btn.collectibles.title" title="藏品与料理" aria-label="藏品与料理">收集</button>
             <button id="btn-quests" type="button" class="btn-icon header-panel-btn header-quest-btn" data-i18n-title="btn.quests.title" data-i18n-aria="btn.quests.title" title="任务" aria-label="任务">
               <span data-i18n="btn.quests">任务</span><span id="quest-badge" class="header-badge" hidden></span>
             </button>
@@ -95,8 +96,18 @@
         </div>
       </div>
 
+      <div id="world-map-overlay" class="game-panel-overlay" hidden>
+        <div class="game-panel world-map-panel" role="dialog" aria-modal="true" aria-labelledby="world-map-title">
+          <div class="game-panel-header">
+            <h2 id="world-map-title" data-i18n="map.title">地图</h2>
+            <button id="btn-world-map-close" type="button" class="btn-icon settings-close" data-i18n-aria="settings.close" aria-label="关闭">×</button>
+          </div>
+          <div id="world-map-body" class="game-panel-body world-map-body"></div>
+        </div>
+      </div>
+
       <div id="bestiary-overlay" class="game-panel-overlay" hidden>
-        <div class="game-panel" role="dialog" aria-modal="true" aria-labelledby="bestiary-title">
+        <div class="game-panel bestiary-panel" role="dialog" aria-modal="true" aria-labelledby="bestiary-title">
           <div class="game-panel-header">
             <h2 id="bestiary-title" data-i18n="bestiary.title">怪物图鉴</h2>
             <button id="btn-bestiary-close" type="button" class="btn-icon settings-close" data-i18n-aria="settings.close" aria-label="关闭">×</button>
@@ -116,7 +127,7 @@
       </div>
 
       <div id="collectibles-overlay" class="game-panel-overlay" hidden>
-        <div class="game-panel" role="dialog" aria-modal="true" aria-labelledby="collectibles-title">
+        <div class="game-panel collectibles-panel" role="dialog" aria-modal="true" aria-labelledby="collectibles-title">
           <div class="game-panel-header">
             <h2 id="collectibles-title" data-i18n="collectibles.title">收集</h2>
             <button id="btn-collectibles-close" type="button" class="btn-icon settings-close" data-i18n-aria="settings.close" aria-label="关闭">×</button>
@@ -251,6 +262,5 @@ var _hmt = _hmt || [];
 })();
 </script>
     </div>
-
   </body>
 </html>
