@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>ZeroRpg</title>
     <link rel="icon" type="image/png" href="./favicon.png" />
-    <script type="module" src="./assets/index-HyBj0_gg.js"></script>
-    <link rel="stylesheet" href="./assets/index-BaR-Sr9u.css">
+    <script type="module" src="./assets/index-Dadd4GtF.js"></script>
+    <link rel="stylesheet" href="./assets/index-DTQUKck5.css">
   </head>
   <body>
     <div id="app">
@@ -47,18 +47,51 @@
             <section class="_DOW56ms">
               <h3 class="_Fa8Y3_b" data-i18n="settings.language">语言</h3>
               <select id="select-language" class="_uQiJZRl" data-i18n-aria="settings.language.aria" aria-label="语言">
-                <option value="zh-CN" data-i18n="settings.langOptionZh">简体中文</option>
-                <option value="en" selected>English</option>
+                <option value="zh-CN" selected data-i18n="settings.langOptionZh">简体中文</option>
+                <option value="en">English</option>
               </select>
             </section>
             <section class="_DOW56ms">
               <h3 class="_Fa8Y3_b" data-i18n="settings.game">游戏</h3>
               <label class="_I4NA2Gr">
                 <input id="checkbox-pixel-ui" type="checkbox" checked />
-                <span data-i18n="settings.game.pixelUi">像素风界面（关闭恢复原版）</span>
+                <span data-i18n="settings.game.pixelUi">像素风界面</span>
+              </label>
+              <select id="select-combat-fx" class="_uQiJZRl" data-i18n-aria="settings.game.combatFx.aria" aria-label="战斗反馈">
+                <option value="light" data-i18n="settings.game.combatFx.light">战斗反馈：轻量</option>
+                <option value="full" data-i18n="settings.game.combatFx.full">战斗反馈：完全</option>
+                <option value="none" data-i18n="settings.game.combatFx.none">战斗反馈：无</option>
+              </select>
+              <label class="_I4NA2Gr">
+                <input id="checkbox-combat-audio" type="checkbox" checked />
+                <span data-i18n="settings.game.combatAudio">音效</span>
+              </label>
+              <label class="_rVnGv1M">
+                <span data-i18n="settings.game.audioVolume">主音量</span>
+                <input id="range-audio-volume" type="range" min="0" max="100" step="5" value="100" data-i18n-aria="settings.game.audioVolume" aria-label="主音量" />
+                <span id="audio-volume-value" class="_uo1g808">100%</span>
+              </label>
+              <label class="_I4NA2Gr">
+                <input id="checkbox-audio-important" type="checkbox" />
+                <span data-i18n="settings.game.audioImportant">仅重要时刻</span>
+              </label>
+              <select id="select-ui-scale" class="_uQiJZRl" data-i18n-aria="settings.game.uiScale.aria" aria-label="界面缩放">
+                <option value="1" data-i18n="settings.game.uiScale.100">界面缩放：100%</option>
+                <option value="1.5" data-i18n="settings.game.uiScale.150">界面缩放：150%</option>
+                <option value="2" data-i18n="settings.game.uiScale.200">界面缩放：200%</option>
+              </select>
+              <button id="btn-open-shortcuts" type="button" class="_S-p1cr-" data-i18n="settings.game.shortcuts">快捷键（?）</button>
+              <label class="_I4NA2Gr">
+                <input id="checkbox-typewriter" type="checkbox" />
+                <span data-i18n="settings.game.typewriter">叙事打字机</span>
               </label>
               <button id="btn-hard-restart" type="button" class="_S-p1cr- danger" data-i18n="settings.game.hardRestart">硬重启（重置存档）</button>
               <p class="_Da06jQu" data-i18n="settings.game.hardRestart.hint">清除本地存档并从海滩重新开始，此操作不可撤销。</p>
+            </section>
+            <section class="_DOW56ms">
+              <h3 class="_Fa8Y3_b" data-i18n="settings.backup">存档备份</h3>
+              <div id="settings-backup-list"></div>
+              <p class="_Da06jQu" data-i18n="settings.backup.hint">每 10 分钟、过完一章、导入或恢复之前各自动留一份，最多 3 份。</p>
             </section>
           </div>
         </div>
@@ -80,6 +113,7 @@
           <div class="_3AH3O81">
             <h2 id="storage-title" data-i18n="storage.title">储存箱</h2>
             <span id="_2v4ZtM1" class="_2v4ZtM1"></span>
+            <button id="btn-storage-deposit-materials" type="button" class="_iTwvM8V" data-i18n="storage.depositMaterials" data-i18n-title="storage.depositMaterials.title" title="背包里的材料全部存进箱子（收藏的不动）">存入材料</button>
             <button id="btn-storage-close" type="button" class="_iTwvM8V secondary" data-i18n="storage.exit">退出</button>
           </div>
           <nav id="_HTAy1Qz" class="_MZMkpCi _HTAy1Qz"></nav>
@@ -177,6 +211,28 @@
         </div>
       </div>
 
+      <div id="shortcuts-overlay" class="_Efse4Sl" hidden>
+        <div class="_ypix8jr _VYNkOTH" role="dialog" aria-modal="true" aria-labelledby="shortcuts-title">
+          <div class="_qvIhzX_">
+            <h2 id="shortcuts-title" data-i18n="shortcuts.title">快捷键</h2>
+            <button id="btn-shortcuts-close" type="button" class="_BDcwEQF _CyEVQQS" data-i18n-aria="settings.close" aria-label="关闭">×</button>
+          </div>
+          <div class="_YjvFIp9">
+            <dl class="_UQMwBIc">
+              <dt><kbd data-i18n="shortcuts.key.space">空格</kbd></dt><dd data-i18n="shortcuts.pause">暂停 / 继续当前行动</dd>
+              <dt><kbd>R</kbd></dt><dd data-i18n="shortcuts.repeat">重复上一个行动</dd>
+              <dt><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></dt><dd data-i18n="shortcuts.tabs">切换 区域 / 制作 / 技能</dd>
+              <dt><kbd>M</kbd></dt><dd data-i18n="shortcuts.map">打开 / 关闭地图</dd>
+              <dt><kbd>Esc</kbd></dt><dd data-i18n="shortcuts.esc">关闭最上层的面板</dd>
+              <dt><kbd>?</kbd></dt><dd data-i18n="shortcuts.help">显示本列表</dd>
+            </dl>
+            <p class="_Da06jQu" data-i18n="shortcuts.hint">输入文字时快捷键不生效。</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="_pdCOxiU" class="_pdCOxiU" role="group" data-i18n-aria="vital.strip.aria" aria-label="生命 / 能量 / 饱食"></div>
+
       <div class="_pJe_bFO">
         <aside class="_vnISNHQ">
           <section class="panel _kZ9GFtG">
@@ -190,12 +246,22 @@
           </section>
           <section class="panel _TYoZNHi">
             <h2 class="_s3j-VvJ" data-i18n="inv.title">背包</h2>
+            <div class="_KW2CUfL">
+              <input id="_090ezEA" type="search" class="_090ezEA" placeholder="搜索" autocomplete="off" spellcheck="false" data-i18n-aria="inv.search.aria" aria-label="搜索背包" />
+              <select id="_dPCDa9a" class="_dPCDa9a" data-i18n-aria="inv.sort.aria" aria-label="排序">
+                <option value="default" data-i18n="inv.sort.default">默认排序</option>
+                <option value="type" data-i18n="inv.sort.type">按类型</option>
+                <option value="count" data-i18n="inv.sort.count">按数量</option>
+                <option value="recent" data-i18n="inv.sort.recent">最近获得</option>
+              </select>
+            </div>
             <nav id="_MZMkpCi" class="_MZMkpCi"></nav>
             <div id="_YLjYDn5" class="_YLjYDn5"></div>
           </section>
         </aside>
 
         <main class="_rVY8CHT">
+          <div id="_v9RN9KQ" class="_v9RN9KQ" hidden></div>
           <section class="panel _1SckDBU">
             <div id="location-info"></div>
             <div id="combat-info" class="_GfIt28M"></div>
@@ -245,6 +311,8 @@
         </aside>
       </div>
     </div>
+    <div id="combat-fx-layer" aria-hidden="true"></div>
+    <div id="game-toast-layer" aria-live="polite"></div>
 <!--客服 开始-->
 <script src="//g8hh.github.io/static/js/jquery.min.js"></script>
 <link rel="stylesheet" href="//g8hh.github.io/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
